@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
-// import cors from 'cors';  // Import CORS
+import cors from 'cors';  // Import CORS
 import bodyParser from 'body-parser';  // Import body-parser
-import { Sequelize } from 'sequelize';
 import { User } from './models/User'; // Import the User model
 import userRoutes from './routes/userRoutes'; // Import user routes
 import createError, { HttpError } from 'http-errors';
@@ -11,12 +10,12 @@ const app = express();
 const port = 4000;
 
 // Enable CORS for all origins (can be customized later)
-// const allowedOrigins = ['http://localhost:3000'];
+const allowedOrigins = ['http://localhost:3000'];
 
-// const options: cors.CorsOptions = {
-//   origin: allowedOrigins
-// };
-// app.use(cors(options));  // Use CORS middleware
+const options: cors.CorsOptions = {
+  origin: allowedOrigins
+};
+app.use(cors(options));  // Use CORS middleware
 
 // Use body-parser for parsing JSON and URL-encoded data
 app.use(bodyParser.json());  // For parsing application/json
