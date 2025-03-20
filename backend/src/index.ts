@@ -1,10 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';  // Import CORS
 import bodyParser from 'body-parser';  // Import body-parser
-import { User } from './models/User'; // Import the User model
 import userRoutes from './routes/userRoutes'; // Import user routes
-import createError, { HttpError } from 'http-errors';
+import { HttpError } from 'http-errors';
 import sequelize from './db';
+import './models'; // Import models to ensure they are initialized
 
 const app = express();
 const port = 4000;
@@ -31,7 +31,7 @@ sequelize.authenticate()
   });
 
 // Sync models with the database
-sequelize.sync({ force: false }) // { force: true } will drop and recreate the tables on every restart (useful during development)
+sequelize.sync({ force: false, alter: true }) // { force: true } will drop and recreate the tables on every restart (useful during development)
   .then(() => {
     console.log('Database synced');
   });

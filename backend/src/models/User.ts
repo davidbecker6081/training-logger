@@ -1,45 +1,43 @@
-import { DataTypes, Model, Optional } from 'sequelize';
-import sequelize from '../db';
+import { DataTypes, Model, InferAttributes, InferCreationAttributes, CreationOptional } from 'sequelize';
 
-// Define types for User attributes
-interface UserAttributes {
-  id: number;
-  name: string;
-  email: string;
-}
+export class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+  declare id: CreationOptional<number>;
+  declare name: string;
+  declare email: string;
+  declare age: CreationOptional<number>;
+  declare createdAt: CreationOptional<Date>;
+  declare updatedAt: CreationOptional<Date>;
 
-// Define the attributes for creation (no id for creation)
-interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
-
-// Define the User model
-export class User extends Model{
-  public id!: number;
-  public name!: string;
-  public email!: string;
-
-  public readonly createdAt!: Date;
-  public readonly updatedAt!: Date;
-}
-// Initialize the User model with the sequelize instance
-User.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-    },
-  },
-  {
-    sequelize, // Use the passed sequelize instance
-    tableName: 'user',
+  static initialize(sequelize: any) {
+    User.init(
+      {
+        id: {
+          type: DataTypes.INTEGER,
+          primaryKey: true,
+          autoIncrement: true,
+        },
+        name: {
+          type: DataTypes.STRING,
+          allowNull: false,
+        },
+        email: {
+          type: DataTypes.STRING,
+          allowNull: false,
+          unique: true,
+        },
+        age: {
+          type: DataTypes.INTEGER,
+          allowNull: true,
+        },
+        createdAt: DataTypes.DATE,
+        updatedAt: DataTypes.DATE
+      },
+      {
+        sequelize,
+        paranoid: true,
+        tableName: 'user',
+        underscored: true
+      }
+    );
   }
-);
+}

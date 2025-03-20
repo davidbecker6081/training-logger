@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { User } from '../models/User';
-import createError, { HttpError } from 'http-errors';
+import { User } from '../models/index';
+import createError from 'http-errors';
 const router = Router();
 
 const notFoundError = createError(404, 'Resource not found');
@@ -8,13 +8,13 @@ const notFoundError = createError(404, 'Resource not found');
 
 router.delete(
   '/users/:id',
-  async (req: Request, res: Response) => {
+  async (req: Request, res: Response, next: NextFunction) => {
     const userId: any = req.params.id;
     try {
       const user = await User.findByPk(userId);
       if (!user) {
-        // return next(notFoundError);
-        res.status(404).json({ message: 'User not found' });
+        return next(notFoundError);
+        // res.status(404).json({ message: 'User not found' });
       }
       else {
         await user.destroy();
@@ -30,7 +30,7 @@ router.delete(
 
 // POST route to create a user
 router.post('/users', async (req: Request, res: Response) => {
-  const { name, email } = req.body;
+  const { name, email, age } = req.body;
   try {
     const newUser = await User.create({ name, email });
     res.status(201).json(newUser);
@@ -76,8 +76,10 @@ router.put('/users/:id', async (req: Request, res: Response, next: NextFunction)
     if (!user) {
       return next(createError(400, 'Invalid user ID'));
     }
-    user.name = name;
-    user.email = email;
+    user.set({
+      name,
+      email,
+    })
     await user.save();
     res.status(200).json(user);
   } catch (error) {
