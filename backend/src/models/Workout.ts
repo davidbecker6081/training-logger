@@ -3,7 +3,7 @@ import { Sequelize, DataTypes, Model, InferAttributes, InferCreationAttributes, 
 export class Workout extends Model<InferAttributes<Workout>, InferCreationAttributes<Workout>> {
     declare id: CreationOptional<number>;
     declare name: string;
-    declare description: string;
+    declare description: CreationOptional<string>;
     declare date: Date;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
