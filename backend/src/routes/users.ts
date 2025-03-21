@@ -1,10 +1,8 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { User } from '../models/index';
 import createError from 'http-errors';
-const router = Router();
-
-const notFoundError = createError(404, 'Resource not found');
-
+import router from '../router'
+import { notFoundError } from '../services/error-service';
 
 router.delete(
   '/users/:id',

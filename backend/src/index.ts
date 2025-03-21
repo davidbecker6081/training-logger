@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';  // Import CORS
 import bodyParser from 'body-parser';  // Import body-parser
-import userRoutes from './routes/userRoutes'; // Import user routes
+import { userRoutes, workoutRoutes } from './routes/index';
 import { HttpError } from 'http-errors';
 import sequelize from './db';
 import './models'; // Import models to ensure they are initialized
