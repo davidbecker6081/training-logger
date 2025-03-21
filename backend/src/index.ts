@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';  // Import CORS
 import bodyParser from 'body-parser';  // Import body-parser
-import { userRoutes, workoutRoutes } from './routes/index';
+import routes from './routes/index';
 import { HttpError } from 'http-errors';
 import sequelize from './db';
 import './models'; // Import models to ensure they are initialized
@@ -50,7 +50,7 @@ app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-app.use('/api', userRoutes); // Prefix API routes with /api
+app.use('/api', routes);
 
 // Start the server
 app.listen(port, () => {
