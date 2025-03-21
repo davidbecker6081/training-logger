@@ -13,3 +13,16 @@ router.get(routePaths.WORKOUTS, async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Error retrieving workouts' });
   }
 });
+
+router.post(routePaths.WORKOUTS, async (req: Request, res: Response) => {
+  const { name, description, date } = req.body;
+  try {
+    const newWorkout = await Workout.create({ name, description, date });
+    res.status(201).json(newWorkout);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error creating workout' });
+  }
+});
+
+export default router;
